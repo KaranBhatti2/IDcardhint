@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student ID Card Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .template-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .template-button {
+      padding: 0.5rem 1rem;
+      border: 2px solid #2563eb;
+      background: white;
+      color: #2563eb;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .template-button.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    /* Common styles */
+    .id-card {
+      width: 100%;
+      max-width: 600px;
+      margin: 2rem auto;
+      border: 1px solid #ddd;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .id-card-header {
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .student-info {
+      padding: 1.5rem;
+    }
+
+    .student-photo {
+      width: 150px;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .info-group {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-label {
+      font-weight: bold;
+    }
+
+    .year {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    .id-card-title {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Form styles */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    button[type="submit"], #downloadBtn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 1rem 0;
+      width: 100%;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .university-logos {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .university-logo {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .id-card-header h2 {
+      margin: 0 1rem;
+    }
+
+    /* Template-specific styles */
+    .template-4 .id-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .template-5 .student-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .template-6 {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .template-7 .id-card-header {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .template-7 .id-card-header::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(45deg);
+    }
+
+    .template-8 .student-info {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .template-9 {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="text-align: center; margin-bottom: 2rem;">Student ID Card Generator</h1>
+    
+    <div class="template-buttons">
+      <button class="template-button active" data-template="1">Template 1</button>
+      <button class="template-button" data-template="2">Template 2</button>
+      <button class="template-button" data-template="3">Template 3</button>
+      <button class="template-button" data-template="4">Template 4</button>
+      <button class="template-button" data-template="5">Template 5</button>
+      <button class="template-button" data-template="6">Template 6</button>
+      <button class="template-button" data-template="7">Template 7</button>
+      <button class="template-button" data-template="8">Template 8</button>
+      <button class="template-button" data-template="9">Template 9</button>
+    </div>
+
+    <form id="idCardForm">
+      <div class="form-group">
+        <label for="collegeName">College Name</label>
+        <input type="text" id="collegeName" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="fatherName">Father's Name</label>
+        <input type="text" id="fatherName" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="motherName">Mother's Name</label>
+        <input type="text" id="motherName" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="photo">Photo</label>
+        <input type="file" id="photo" accept="image/*" required>
+      </div>
+      
+      <button type="submit">Generate ID Card</button>
+    </form>
+
+    <div id="idCard" style="display: none;">
+      <!-- Templates will be inserted here by JavaScript -->
+    </div>
+
+    <button id="downloadBtn" style="display: none;">Download ID Card</button>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    const universities = [
+      '(University of Delhi)',
+      '(Delhi Technological University)',
+      '(Jamia Millia Islamia)',
+      '(Jawaharlal Nehru University)',
+      '(Indira Gandhi Delhi Technical University)',
+      '(Guru Gobind Singh Indraprastha University)',
+      '(Ambedkar University Delhi)',
+      '(National Institute of Technology Delhi)',
+      '(Delhi Skill and Entrepreneurship University)',
+      '(Indian Institute of Technology Delhi)'
+    ];
+
+    const colors = [
+      '#1e40af', '#1d4ed8', '#2563eb', '#3b82f6', '#60a5fa',
+      '#dc2626', '#ef4444', '#f87171', '#b91c1c', '#991b1b',
+      '#047857', '#065f46', '#059669', '#10b981', '#34d399'
+    ];
+
+    const courses = [
+      'B.Tech Computer Science',
+      'BSc Computer Science',
+      'BCA',
+      'MSc Computer Science',
+      'MCA',
+      'M.Tech Computer Science',
+      'Diploma in Computer Engineering',
+      'B.E. Software Engineering',
+      'MSc Data Science',
+      'BSc Information Technology'
+    ];
+
+    let currentTemplate = 1;
+
+    const templates = {
+      1: `
+        <div class="id-card template-1">
+          <div class="id-card-header">
+            <div class="university-logos">
+              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <h2 id="displayCollegeName">College Name</h2>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
+            </div>
+            <p id="displayUniversity">(University of Delhi)</p>
+          </div>
+          <div class="student-info">
+            <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+            <div>
+              <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+              <div class="info-group">
+                <span class="info-label">Name</span>
+                <span id="displayName"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Father's Name</span>
+                <span id="displayFatherName"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Mother's Name</span>
+                <span id="displayMotherName"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Course</span>
+                <span id="displayCourse"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Roll No.</span>
+                <span id="displayRollNo"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Date of Birth</span>
+                <span id="displayDOB"></span>
+              </div>
+              <div class="year" id="displayYear">2025-2030</div>
+            </div>
+          </div>
+        </div>
+      `,
+      2: `
+        <div class="id-card template-2">
+          <div class="id-card-header">
+            <div class="university-logos">
+              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <h2 id="displayCollegeName">College Name</h2>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
+            </div>
+            <p id="displayUniversity">(University of Delhi)</p>
+          </div>
+          <div class="student-info">
+            <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+            <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+            <div style="margin-top: 1rem;">
+              <div class="info-group">
+                <span class="info-label">Name</span>
+                <span id="displayName"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Father's Name</span>
+                <span id="displayFatherName"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Mother's Name</span>
+                <span id="displayMotherName"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Course</span>
+                <span id="displayCourse"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Roll No.</span>
+                <span id="displayRollNo"></span>
+              </div>
+              <div class="info-group">
+                <span class="info-label">Date of Birth</span>
+                <span id="displayDOB"></span>
+              </div>
+              <div class="year" id="displayYear">2025-2030</div>
+            </div>
+          </div>
+        </div>
+      `,
+      3: `
+        <div class="id-card template-3">
+          <div class="id-card-header">
+            <div class="university-logos">
+              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <h2 id="displayCollegeName">College Name</h2>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
+            </div>
+            <p id="displayUniversity">(University of Delhi)</p>
+          </div>
+          <div class="student-info">
+            <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem;">
+              <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+              <div>
+                <div class="info-group">
+                  <span class="info-label">Name</span>
+                  <span id="displayName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Father's Name</span>
+                  <span id="displayFatherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Mother's Name</span>
+                  <span id="displayMotherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Course</span>
+                  <span id="displayCourse"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Roll No.</span>
+                  <span id="displayRollNo"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date of Birth</span>
+                  <span id="displayDOB"></span>
+                </div>
+                <div class="year" id="displayYear">2025-2030</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      4: `
+        <div class="id-card template-4">
+          <div class="id-card-header">
+            <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+            <h2 id="displayCollegeName">College Name</h2>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
+          </div>
+          <div class="student-info">
+            <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+            <p id="displayUniversity">(University of Delhi)</p>
+            <div style="display: flex; gap: 1rem;">
+              <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+              <div>
+                <div class="info-group">
+                  <span class="info-label">Name</span>
+                  <span id="displayName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Father's Name</span>
+                  <span id="displayFatherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Mother's Name</span>
+                  <span id="displayMotherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Course</span>
+                  <span id="displayCourse"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Roll No.</span>
+                  <span id="displayRollNo"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date of Birth</span>
+                  <span id="displayDOB"></span>
+                </div>
+              </div>
+            </div>
+            <div class="year" id="displayYear">2025-2030</div>
+          </div>
+        </div>
+      `,
+      5: `
+        <div class="id-card template-5">
+          <div class="id-card-header">
+            <h2 id="displayCollegeName">College Name</h2>
+            <p id="displayUniversity">(University of Delhi)</p>
+          </div>
+          <div class="student-info">
+            <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+            <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+            <div class="info-group">
+              <span class="info-label">Name</span>
+              <span id="displayName"></span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Father's Name</span>
+              <span id="displayFatherName"></span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Mother's Name</span>
+              <span id="displayMotherName"></span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Course</span>
+              <span id="displayCourse"></span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Roll No.</span>
+              <span id="displayRollNo"></span>
+            </div>
+            <div class="info-group">
+              <span class="info-label">Date of Birth</span>
+              <span id="displayDOB"></span>
+            </div>
+            <div class="year" id="displayYear">2025-2030</div>
+          </div>
+        </div>
+      `,
+      6: `
+        <div class="id-card template-6">
+          <div class="id-card-header">
+            <div class="university-logos">
+              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <h2 id="displayCollegeName">College Name</h2>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
+            </div>
+            <p id="displayUniversity">(University of Delhi)</p>
+          </div>
+          <div class="student-info">
+            <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+            <div style="display: flex; gap: 1rem;">
+              <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+              <div>
+                <div class="info-group">
+                  <span class="info-label">Name</span>
+                  <span id="displayName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Father's Name</span>
+                  <span id="displayFatherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Mother's Name</span>
+                  <span id="displayMotherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Course</span>
+                  <span id="displayCourse"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Roll No.</span>
+                  <span id="displayRollNo"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date of Birth</span>
+                  <span id="displayDOB"></span>
+                </div>
+              </div>
+            </div>
+            <div class="year" id="displayYear">2025-2030</div>
+          </div>
+        </div>
+      `,
+      7: `
+        <div class="id-card template-7">
+          <div class="id-card-header">
+            <h2 id="displayCollegeName">College Name</h2>
+            <p id="displayUniversity">(University of Delhi)</p>
+          </div>
+          <div class="student-info">
+            <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+            <div style="display: flex; gap: 1rem;">
+              <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+              <div>
+                <div class="info-group">
+                  <span class="info-label">Name</span>
+                  <span id="displayName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Father's Name</span>
+                  <span id="displayFatherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Mother's Name</span>
+                  <span id="displayMotherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Course</span>
+                  <span id="displayCourse"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Roll No.</span>
+                  <span id="displayRollNo"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date of Birth</span>
+                  <span id="displayDOB"></span>
+                </div>
+              </div>
+            </div>
+            <div class="year" id="displayYear">2025-2030</div>
+          </div>
+        </div>
+      `,
+      8: `
+        <div class="id-card template-8">
+          <div class="id-card-header">
+            <div class="university-logos">
+              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <h2 id="displayCollegeName">College Name</h2>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
+            </div>
+            <p id="displayUniversity">(University of Delhi)</p>
+          </div>
+          <div class="student-info">
+            <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem;">
+              <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+              <div>
+                <div class="info-group">
+                  <span class="info-label">Name</span>
+                  <span id="displayName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Father's Name</span>
+                  <span id="displayFatherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Mother's Name</span>
+                  <span id="displayMotherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Course</span>
+                  <span id="displayCourse"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Roll No.</span>
+                  <span id="displayRollNo"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date of Birth</span>
+                  <span id="displayDOB"></span>
+                </div>
+              </div>
+            </div>
+            <div class="year" id="displayYear">2025-2030</div>
+          </div>
+        </div>
+      `,
+      9: `
+        <div class="id-card template-9">
+          <div class="id-card-header">
+            <h2 id="displayCollegeName">College Name</h2>
+            <p id="displayUniversity">(University of Delhi)</p>
+          </div>
+          <div class="student-info">
+            <h3 class="id-card-title" id="displayTitle">STUDENT IDENTITY CARD</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+              <img id="displayPhoto" class="student-photo" src="/placeholder.svg" alt="Student Photo">
+              <div>
+                <div class="info-group">
+                  <span class="info-label">Name</span>
+                  <span id="displayName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Father's Name</span>
+                  <span id="displayFatherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Mother's Name</span>
+                  <span id="displayMotherName"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Course</span>
+                  <span id="displayCourse"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Roll No.</span>
+                  <span id="displayRollNo"></span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date of Birth</span>
+                  <span id="displayDOB"></span>
+                </div>
+              </div>
+            </div>
+            <div class="year" id="displayYear">2025-2030</div>
+          </div>
+        </div>
+      `
+    };
+
+    function getRandomItem(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function generateRollNumber() {
+      return `2025/${Math.floor(10000 + Math.random() * 90000)}`;
+    }
+
+    function generateRandomDOB() {
+      const start = new Date('2000-01-01').getTime();
+      const end = new Date('2005-12-31').getTime();
+      const randomDate = new Date(start + Math.random() * (end - start));
+      return randomDate.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
+    }
+
+    // Template selection
+    document.querySelectorAll('.template-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.template-button').forEach(b => b.classList.remove('active'));
+        button.classList.add('active');
+        currentTemplate = parseInt(button.dataset.template);
+        if (document.getElementById('idCard').style.display !== 'none') {
+          updateIDCard();
+        }
+      });
+    });
+
+    function updateIDCard() {
+      const idCard = document.getElementById('idCard');
+      idCard.innerHTML = templates[currentTemplate];
+      
+      // Update content
+      const collegeName = document.getElementById('collegeName').value;
+      const name = document.getElementById('name').value;
+      const fatherName = document.getElementById('fatherName').value;
+      const motherName = document.getElementById('motherName').value;
+
+      document.getElementById('displayCollegeName').textContent = collegeName;
+      document.getElementById('displayName').textContent = name;
+      document.getElementById('displayFatherName').textContent = fatherName;
+      document.getElementById('displayMotherName').textContent = motherName;
+      document.getElementById('displayCourse').textContent = getRandomItem(courses);
+      document.getElementById('displayRollNo').textContent = generateRollNumber();
+      const randomDOB = generateRandomDOB();
+      document.getElementById('displayDOB').textContent = new Date(randomDOB).toLocaleDateString();
+      
+      // Random colors
+      const headerColor = getRandomItem(colors);
+      const universityColor = getRandomItem(colors);
+      document.querySelector('.id-card-header').style.backgroundColor = headerColor;
+      document.getElementById('displayCollegeName').style.color = 'white';
+      document.getElementById('displayUniversity').style.color = universityColor;
+      document.getElementById('displayTitle').style.color = getRandomItem(colors);
+      document.getElementById('displayYear').style.color = getRandomItem(colors);
+      
+      // Display photo
+      const photoFile = document.getElementById('photo').files[0];
+      if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('displayPhoto').src = e.target.result;
+        };
+        reader.readAsDataURL(photoFile);
+      }
+      
+      idCard.style.display = 'block';
+      document.getElementById('downloadBtn').style.display = 'block';
+    }
+
+    document.getElementById('idCardForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      updateIDCard();
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      html2canvas(document.querySelector("#idCard")).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'student_id_card.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    });
+  </script>
+</body>
+</html>
+
