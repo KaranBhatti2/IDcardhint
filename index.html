@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,7 +123,8 @@
       font-size: 1rem;
     }
 
-    button[type="submit"], #downloadBtn {
+    button[type="submit"],
+    #downloadBtn {
       background: #2563eb;
       color: white;
       border: none;
@@ -146,8 +148,8 @@
     }
 
     .university-logo {
-      width: 50px;
-      height: 50px;
+      width: 70px;
+      height: 70px;
       object-fit: contain;
     }
 
@@ -199,10 +201,11 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1 style="text-align: center; margin-bottom: 2rem;">Student ID Card Generator</h1>
-    
+
     <div class="template-buttons">
       <button class="template-button active" data-template="1">Template 1</button>
       <button class="template-button" data-template="2">Template 2</button>
@@ -220,17 +223,17 @@
         <label for="collegeName">College Name</label>
         <input type="text" id="collegeName" required>
       </div>
-      
+
       <div class="form-group">
         <label for="name">Full Name</label>
         <input type="text" id="name" required>
       </div>
-      
+
       <div class="form-group">
         <label for="photo">Photo</label>
         <input type="file" id="photo" accept="image/*" required>
       </div>
-      
+
       <button type="submit">Generate ID Card</button>
     </form>
 
@@ -299,7 +302,7 @@
         <div class="id-card template-1">
           <div class="id-card-header">
             <div class="university-logos">
-              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <img src="" alt="University Logo 1" class="university-logo">
               <h2 id="displayCollegeName">College Name</h2>
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
             </div>
@@ -342,7 +345,7 @@
         <div class="id-card template-2">
           <div class="id-card-header">
             <div class="university-logos">
-              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <img src="https://upload.wikimedia.org/wikipedia/en/8/84/University_of_Delhi.png" alt="University Logo 1" class="university-logo">
               <h2 id="displayCollegeName">College Name</h2>
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
             </div>
@@ -385,7 +388,7 @@
         <div class="id-card template-3">
           <div class="id-card-header">
             <div class="university-logos">
-              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <img src="https://upload.wikimedia.org/wikipedia/en/8/84/University_of_Delhi.png" alt="University Logo 1" class="university-logo">
               <h2 id="displayCollegeName">College Name</h2>
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
             </div>
@@ -429,7 +432,7 @@
       4: `
         <div class="id-card template-4">
           <div class="id-card-header">
-            <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/en/8/84/University_of_Delhi.png" alt="University Logo 1" class="university-logo">
             <h2 id="displayCollegeName">College Name</h2>
             <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
           </div>
@@ -510,7 +513,7 @@
         <div class="id-card template-6">
           <div class="id-card-header">
             <div class="university-logos">
-              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <img src="https://upload.wikimedia.org/wikipedia/en/8/84/University_of_Delhi.png" alt="University Logo 1" class="university-logo">
               <h2 id="displayCollegeName">College Name</h2>
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
             </div>
@@ -596,7 +599,7 @@
         <div class="id-card template-8">
           <div class="id-card-header">
             <div class="university-logos">
-              <img src="https://w7.pngwing.com/pngs/136/352/png-transparent-faculty-of-law-university-of-delhi-daulat-ram-college-student-thumbnail.png" alt="University Logo 1" class="university-logo">
+              <img src="https://upload.wikimedia.org/wikipedia/en/8/84/University_of_Delhi.png" alt="University Logo 1" class="university-logo">
               <h2 id="displayCollegeName">College Name</h2>
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Delhi_University%27s_official_logo.png" alt="University Logo 2" class="university-logo">
             </div>
@@ -713,18 +716,18 @@
       
       // Update content
       const collegeName = document.getElementById('collegeName').value;
-      const fullName = document.getElementById('name').value;
-      const nameParts = fullName.split(' ');
-      const lastName = nameParts[nameParts.length - 1];
-      const studentFirstName = nameParts.slice(0, -1).join(' ');
+      const fullName = document.getElementById('name').value.trim();
+      const nameParts = fullName.split(/\s+/); // Split by any whitespace
+      const surname = nameParts.length > 0 ? nameParts[nameParts.length - 1] : '';
+      const firstName = nameParts.slice(0, -1).join(' ');
 
       const fatherFirstName = getRandomItem(fatherFirstNames);
       const motherFirstName = getRandomItem(motherFirstNames);
 
-      document.getElementById('displayCollegeName').textContent = collegeName;
+      document.getElementById('displayCollegeName').textContent = document.getElementById('collegeName').value;
       document.getElementById('displayName').textContent = fullName;
-      document.getElementById('displayFatherName').textContent = `${fatherFirstName} ${lastName}`;
-      document.getElementById('displayMotherName').textContent = `${motherFirstName} ${lastName}`;
+      document.getElementById('displayFatherName').textContent = `${fatherFirstName} ${surname}`;
+      document.getElementById('displayMotherName').textContent = `${motherFirstName} ${surname}`;
       document.getElementById('displayCourse').textContent = getRandomItem(courses);
       document.getElementById('displayRollNo').textContent = generateRollNumber();
       const randomDOB = generateRandomDOB();
@@ -768,5 +771,5 @@
     });
   </script>
 </body>
-</html>
 
+</html>
