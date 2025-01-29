@@ -74,11 +74,21 @@
       padding: 1.5rem;
     }
 
-    .student-photo {
-      width: 150px;
-      height: 180px;
-      object-fit: cover;
-    }
+   .student-photo {
+    width: 150px;
+    height: 180px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    background-color: #f5f5f5;
+}
+
+#photo {
+    padding: 10px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
 
     .info-group {
       display: grid;
@@ -277,21 +287,21 @@
       'BSc Information Technology'
     ];
 
-    const maleFirstNames = [
-    'Aarav', 'Arjun', 'Aditya', 'Bharat', 'Dev', 'Dhruv', 'Gaurav', 'Hrithik',
-    'Ishaan', 'Kabir', 'Krishna', 'Karan', 'Mohan', 'Nakul', 'Nikhil', 'Om',
-    'Pranav', 'Rahul', 'Raj', 'Rohan', 'Sai', 'Shiva', 'Suraj', 'Varun',
-    'Vikram', 'Vihaan', 'Yash', 'Aryan', 'Ayush', 'Chirag', 'Darsh', 'Deven',
-    'Harsh', 'Ishan', 'Jatin', 'Krish', 'Kunal', 'Mihir', 'Neel', 'Pranay'
-    ];
+const fatherFirstNames = [
+    'Rajesh', 'Suresh', 'Ramesh', 'Mahesh', 'Dinesh', 'Kamal', 'Sanjay', 'Vijay',
+    'Ajay', 'Anil', 'Sunil', 'Mukesh', 'Rakesh', 'Prakash', 'Naresh', 'Rajendra',
+    'Mohan', 'Sohan', 'Arun', 'Varun', 'Deepak', 'Ashok', 'Rajiv', 'Sanjeev',
+    'Manoj', 'Vinod', 'Pankaj', 'Amit', 'Sumit', 'Anand', 'Praveen', 'Naveen',
+    'Raj', 'Ravi', 'Shiv', 'Ram', 'Krishna', 'Gopal', 'Dharmendra', 'Narendra'
+];
 
-    const femaleFirstNames = [
-    'Aanya', 'Diya', 'Aditi', 'Ananya', 'Bhavya', 'Divya', 'Gayatri', 'Ishita',
-    'Jiya', 'Kavya', 'Kiara', 'Lakshmi', 'Mitali', 'Nisha', 'Pooja', 'Priya',
-    'Riya', 'Saanvi', 'Sanya', 'Shreya', 'Tanvi', 'Uma', 'Vanya', 'Zara',
-    'Avani', 'Deepika', 'Eesha', 'Gauri', 'Ira', 'Jasmine', 'Keya', 'Mira',
-    'Navya', 'Padma', 'Radha', 'Sonia', 'Tara', 'Urvi', 'Vaani', 'Ziya'
-    ];
+const motherFirstNames = [
+    'Anjali', 'Sunita', 'Sangeeta', 'Kavita', 'Savita', 'Anita', 'Mamta', 'Kiran',
+    'Meena', 'Geeta', 'Seema', 'Neeta', 'Rita', 'Sita', 'Rekha', 'Usha',
+    'Asha', 'Deepa', 'Pushpa', 'Rani', 'Shanti', 'Poonam', 'Radha', 'Maya',
+    'Lata', 'Neha', 'Preeti', 'Priya', 'Sneha', 'Pooja', 'Manju', 'Sarla',
+    'Shakuntala', 'Shobha', 'Kumari', 'Vimla', 'Sheela', 'Madhu', 'Rama', 'Suman'
+];
 
     let currentTemplate = 1;
 
@@ -709,46 +719,106 @@
     });
 
     function updateIDCard() {
-      const idCard = document.getElementById('idCard');
-      idCard.innerHTML = templates[currentTemplate];
-      
-      // Update content
-      const collegeName = document.getElementById('collegeName').value;
-      const fullName = document.getElementById('name').value.trim();
-      const nameParts = fullName.split(/\s+/); // Split by any whitespace
-      const surname = nameParts.length > 0 ? nameParts[nameParts.length - 1] : '';
-      const firstName = nameParts.slice(0, -1).join(' ');
+    try {
+        const idCard = document.getElementById('idCard');
+        if (!idCard) {
+            console.error('ID card element not found');
+            return;
+        }
+        
+        // Set the template
+        idCard.innerHTML = templates[currentTemplate];
+        
+        // Get form values
+        const collegeName = document.getElementById('collegeName').value.trim();
+        const fullName = document.getElementById('name').value.trim();
+        
+        // Process name parts
+        const nameParts = fullName.split(/\s+/);
+        const surname = nameParts.length > 0 ? nameParts[nameParts.length - 1] : '';
+        const firstName = nameParts.slice(0, -1).join(' ');
 
-      const fatherFirstName = getRandomItem(fatherFirstNames);
-      const motherFirstName = getRandomItem(motherFirstNames);
+        // Generate random names for parents
+        const fatherFirstName = getRandomItem(fatherFirstNames);
+        const motherFirstName = getRandomItem(motherFirstNames);
 
-      document.getElementById('displayCollegeName').textContent = document.getElementById('collegeName').value;
-      document.getElementById('displayName').textContent = fullName;
-      document.getElementById('displayFatherName').textContent = `${fatherFirstName} ${surname}`;
-      document.getElementById('displayMotherName').textContent = `${motherFirstName} ${surname}`;
-      document.getElementById('displayCourse').textContent = getRandomItem(courses);
-      document.getElementById('displayRollNo').textContent = generateRollNumber();
-      const randomDOB = generateRandomDOB();
-      document.getElementById('displayDOB').textContent = new Date(randomDOB).toLocaleDateString();
-      
-      // Random colors
-      const headerColor = getRandomItem(colors);
-      const universityColor = getRandomItem(colors);
-      document.querySelector('.id-card-header').style.backgroundColor = headerColor;
-      document.getElementById('displayCollegeName').style.color = 'white';
-      document.getElementById('displayUniversity').style.color = universityColor;
-      document.getElementById('displayTitle').style.color = getRandomItem(colors);
-      document.getElementById('displayYear').style.color = getRandomItem(colors);
-      
-      // Display photo
-      const photoFile = document.getElementById('photo').files[0];
-      if (photoFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('displayPhoto').src = e.target.result;
+        // Update display elements
+        const elements = {
+            'displayCollegeName': collegeName,
+            'displayName': fullName,
+            'displayFatherName': `${fatherFirstName} ${surname}`,
+            'displayMotherName': `${motherFirstName} ${surname}`,
+            'displayCourse': getRandomItem(courses),
+            'displayRollNo': generateRollNumber(),
+            'displayDOB': new Date(generateRandomDOB()).toLocaleDateString(),
+            'displayUniversity': getRandomItem(universities)
         };
-        reader.readAsDataURL(photoFile);
-      }
+
+        // Update all elements
+        Object.entries(elements).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+            }
+        });
+
+        // Apply random colors
+        const headerColor = getRandomItem(colors);
+        const universityColor = getRandomItem(colors);
+        
+        const header = document.querySelector('.id-card-header');
+        if (header) {
+            header.style.backgroundColor = headerColor;
+        }
+
+        const colorElements = {
+            'displayCollegeName': 'white',
+            'displayUniversity': universityColor,
+            'displayTitle': getRandomItem(colors),
+            'displayYear': getRandomItem(colors)
+        };
+
+        // Apply colors to elements
+        Object.entries(colorElements).forEach(([id, color]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.style.color = color;
+            }
+        });
+
+        // Handle photo display
+        const photoInput = document.getElementById('photo');
+        if (photoInput && photoInput.files.length > 0) {
+            const photoFile = photoInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const displayPhoto = document.getElementById('displayPhoto');
+                if (displayPhoto) {
+                    displayPhoto.src = e.target.result;
+                }
+            };
+            
+            reader.onerror = function(e) {
+                console.error('Error reading file:', e);
+                alert('Error loading photo. Please try again.');
+            };
+
+            reader.readAsDataURL(photoFile);
+        }
+
+        // Show the ID card and download button
+        idCard.style.display = 'block';
+        const downloadBtn = document.getElementById('downloadBtn');
+        if (downloadBtn) {
+            downloadBtn.style.display = 'block';
+        }
+
+    } catch (error) {
+        console.error('Error updating ID card:', error);
+        alert('An error occurred while generating the ID card. Please try again.');
+    }
+}
       
       idCard.style.display = 'block';
       document.getElementById('downloadBtn').style.display = 'block';
